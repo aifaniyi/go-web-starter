@@ -1,4 +1,4 @@
-cmd/sample/main
-cmd/sample/sample
+cmd/server/main
+cmd/server/server
 
 vendor/
