@@ -8,7 +8,7 @@ import (
 	"github.com/aifaniyi/sample/pkg/repository"
 	"github.com/go-chi/chi"
 
-	"gitlab.com/aifaniyi/go-libs/logger"
+	"github.com/aifaniyi/sample/pkg/logger"
 )
 
 type server struct {

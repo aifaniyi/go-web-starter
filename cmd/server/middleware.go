@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"gitlab.com/aifaniyi/go-libs/logger"
+	"github.com/aifaniyi/sample/pkg/logger"
 )
 
 type key int
