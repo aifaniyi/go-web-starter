@@ -1,6 +1,8 @@
 package config
 
-import "github.com/aifaniyi/env"
+import (
+	"github.com/aifaniyi/env"
+)
 
 type Config struct {
 	Port string

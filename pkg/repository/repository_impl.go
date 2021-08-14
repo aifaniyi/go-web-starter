@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/aifaniyi/env"
 	"github.com/aifaniyi/sample/pkg/entity"
@@ -12,14 +13,19 @@ import (
 	"gorm.io/gorm"
 )
 
+const (
+	defaultQueryTimeout = 2
+)
+
 type Impl struct {
-	conn     *gorm.DB
-	userRepo user.Repo
+	conn         *gorm.DB
+	queryTimeout time.Duration
+	userRepo     user.Repo
 }
 
 func (i *Impl) GetUserRepo() user.Repo {
 	if i.userRepo == nil {
-		i.userRepo = user.NewRepoImpl(i.conn)
+		i.userRepo = user.NewRepoImpl(i.conn, i.queryTimeout)
 	}
 	return i.userRepo
 }
@@ -31,6 +37,7 @@ func NewServiceImpl() (*Impl, error) {
 	user := env.LoadString("DB_USER", "postgres")
 	password := env.LoadString("DB_PASSWORD", "postgres")
 	ssl := env.LoadBool("DB_SSL", false)
+	queryTimeout := time.Duration(env.LoadInt("DB_QUERY_TIMEOUT", defaultQueryTimeout)) * time.Second
 
 	conn, err := connect(host, port, database, user, password, ssl)
 	if err != nil {
@@ -50,7 +57,8 @@ func NewServiceImpl() (*Impl, error) {
 	}
 
 	return &Impl{
-		conn: gconn,
+		conn:         gconn,
+		queryTimeout: queryTimeout,
 	}, nil
 }
 

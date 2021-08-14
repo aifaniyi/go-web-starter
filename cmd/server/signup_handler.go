@@ -38,7 +38,7 @@ func (s *server) handleSignup() http.HandlerFunc {
 			return
 		}
 
-		if err = domain.Signup(data.Email, data.Password); err != nil {
+		if err = domain.Signup(r.Context(), data.Email, data.Password); err != nil {
 			httpError(w, err, http.StatusInternalServerError)
 			return
 		}
